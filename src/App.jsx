@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Bell, User } from 'lucide-react';
+import { Heart, Bell, User, Moon, Sun } from 'lucide-react';
 
 import LandingPage from './pages/LandingPage';
 import CaregiverJobSearch from './pages/CaregiverJobSearch';
@@ -14,14 +14,16 @@ import HospitalDetail from './pages/HospitalDetail';
 import CreditConfirmationModal from './components/CreditConfirmationModal';
 
 import { INITIAL_CANDIDATES, MATCH_COST } from './data/mockData';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 
-const App = () => {
+const AppContent = () => {
   const [role, setRole] = useState(null);
   const [page, setPage] = useState('landing');
   const [navParams, setNavParams] = useState({});
   const [candidates, setCandidates] = useState(INITIAL_CANDIDATES);
   const [credits, setCredits] = useState(50000);
   const [modalConfig, setModalConfig] = useState({ isOpen: false, candidateId: null });
+  const { theme, toggleTheme } = useTheme();
 
   const handleNavigate = (targetPage, params = {}) => {
     setPage(targetPage);
@@ -69,24 +71,31 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
-      <header className="bg-white border-b sticky top-0 z-50 h-16">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
+      <header className="bg-white dark:bg-slate-800 border-b dark:border-slate-700 sticky top-0 z-50 h-16 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => handleNavigate(role ? (role === 'hospital' ? 'dashboard' : 'caregiver_search') : 'landing')}>
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white mr-2"><Heart className="w-5 h-5 fill-current" /></div>
-            <span className="font-bold text-xl tracking-tight text-slate-900">DuruCares</span>
+            <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">DuruCares</span>
           </div>
-          {role === 'caregiver' && <nav className="hidden md:flex space-x-8 text-sm font-medium"><button onClick={() => handleNavigate('caregiver_search')} className={`${page === 'caregiver_search' ? 'text-blue-600' : 'text-gray-500'}`}>병원 찾기</button><button onClick={() => handleNavigate('caregiver_profile')} className={`${page === 'caregiver_profile' ? 'text-blue-600' : 'text-gray-500'}`}>마이페이지</button></nav>}
-          {role === 'hospital' && <nav className="hidden md:flex space-x-8 text-sm font-medium"><button onClick={() => handleNavigate('dashboard')} className={`${page === 'dashboard' ? 'text-blue-600' : 'text-gray-500'}`}>대시보드</button><button onClick={() => handleNavigate('search')} className={`${page === 'search' ? 'text-blue-600' : 'text-gray-500'}`}>인재 검색</button></nav>}
+          {role === 'caregiver' && <nav className="hidden md:flex space-x-8 text-sm font-medium"><button onClick={() => handleNavigate('caregiver_search')} className={`${page === 'caregiver_search' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'}`}>병원 찾기</button><button onClick={() => handleNavigate('caregiver_profile')} className={`${page === 'caregiver_profile' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'}`}>마이페이지</button></nav>}
+          {role === 'hospital' && <nav className="hidden md:flex space-x-8 text-sm font-medium"><button onClick={() => handleNavigate('dashboard')} className={`${page === 'dashboard' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'}`}>대시보드</button><button onClick={() => handleNavigate('search')} className={`${page === 'search' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'}`}>인재 검색</button></nav>}
           <div className="flex items-center space-x-4">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-500 dark:text-gray-400 transition-colors"
+              aria-label="Toggle Dark Mode"
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
             {role ? (
               <>
-                <div className="relative"><Bell className="w-5 h-5 text-gray-500" /><span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span></div>
-                <button onClick={handleLogout} className="text-sm text-gray-500 hover:text-slate-900">로그아웃</button>
-                <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden"><User className="w-full h-full p-1 text-gray-500" /></div>
+                <div className="relative"><Bell className="w-5 h-5 text-gray-500 dark:text-gray-400" /><span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span></div>
+                <button onClick={handleLogout} className="text-sm text-gray-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white">로그아웃</button>
+                <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-slate-700 overflow-hidden"><User className="w-full h-full p-1 text-gray-500 dark:text-gray-300" /></div>
               </>
             ) : (
-              <div className="flex space-x-4 text-sm font-medium text-gray-600"><span>홈</span><span>회사소개</span><span>서비스 소개</span></div>
+              <div className="flex space-x-4 text-sm font-medium text-gray-600 dark:text-gray-300"><span>홈</span><span>회사소개</span><span>서비스 소개</span></div>
             )}
           </div>
         </div>
@@ -109,5 +118,11 @@ const App = () => {
     </div>
   );
 };
+
+const App = () => (
+  <ThemeProvider>
+    <AppContent />
+  </ThemeProvider>
+);
 
 export default App;
