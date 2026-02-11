@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@custom-variant dark {
+
+  /* Explicit user-selected dark mode */
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
+    @slot;
+  }
+
+  /* System dark mode only if no explicit user choice */
+  @media (prefers-color-scheme: dark) {
+    &:where(:not([data-theme], [data-theme] *)) {
+      @slot;
+    }
+  }
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -17,7 +32,7 @@
 
 @layer base {
   body {
-    @apply m-0 flex place-items-center min-w-[320px] min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300;
+    @apply m-0 min-w-[320px] min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300;
   }
 }
 
