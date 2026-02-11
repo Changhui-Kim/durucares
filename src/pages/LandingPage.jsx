@@ -9,7 +9,7 @@ const LandingPage = ({ onSelectRole }) => (
                 <span className="text-blue-600 dark:text-blue-400">AI로 가장 빠르게 연결</span>합니다
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-12 max-w-2xl">
-                복잡한 서류 검증부터 매칭까지, 케어커넥트가 도와드립니다.
+                복잡한 서류 검증부터 매칭까지, 두루케어스가 도와드립니다.
             </p>
             <div className="grid md:grid-cols-2 gap-8 w-full max-w-4xl">
                 <button onClick={() => onSelectRole('caregiver')} className="group bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm hover:shadow-xl hover:border-blue-500 border-2 border-transparent transition-all text-left">
